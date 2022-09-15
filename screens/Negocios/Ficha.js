@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ScrollView, Dimensions, TouchableOpacity } from "react-native";
+import { ScrollView, Dimensions, TouchableOpacity, Share } from "react-native";
 import { View, Text, Image } from "react-native";
 import axios from "axios";
 import {
@@ -161,6 +161,7 @@ export default function Ficha({ route }) {
               marginBottom: 10,
             }}
             activeOpacity={0.5}
+            onPress={() => Share.share({ message: route.params.share_link })}
           >
             <Icon name="share" type="feather" iconProps={{ size: 40 }} />
             <Text>Compartir</Text>
