@@ -15,6 +15,7 @@ import ImageView from "react-native-image-viewing";
 import { Icon } from "@rneui/themed";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
+import call from "react-native-phone-call";
 
 export default function Ficha({ route }) {
   const isFocused = useIsFocused();
@@ -22,6 +23,7 @@ export default function Ficha({ route }) {
   const [posts, setPosts] = useState();
   const [visible, setIsVisible] = useState(false);
   const [indexImage, setIndexImage] = useState(0);
+  const [numTel, setNumTel] = useState();
 
   let dimensionsH = Dimensions.get("window").height;
   let dimensionsW = Dimensions.get("window").width;
@@ -34,6 +36,10 @@ export default function Ficha({ route }) {
     console.log(index);
     setIsVisible(true);
     setIndexImage(index);
+  };
+
+  const Llamada = (args) => {
+    call(args).catch(console.error);
   };
 
   useEffect(() => {
@@ -49,6 +55,11 @@ export default function Ficha({ route }) {
             )
             .then((res) => {
               setPosts(res.data);
+              setNumTel({
+                number: route.params.telefono, // String value with the number to call
+                prompt: false, // Optional boolean property. Determines if the user should be prompted prior to the call
+                skipCanOpen: true, // Skip the canOpenURL check
+              });
             });
         })
         .catch((err) => {
@@ -165,6 +176,7 @@ export default function Ficha({ route }) {
               marginTop: 10,
             }}
             activeOpacity={0.5}
+            onPress={() => Llamada(numTel)}
           >
             <Icon name="call-outline" type="ionicon" iconProps={{ size: 40 }} />
             <Text>Llamar</Text>

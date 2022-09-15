@@ -76,6 +76,7 @@ function Restaurantes1() {
                     description: section.content[0].description,
                     id: section.content[0].id,
                     coordinates: section.content[0].coordinates,
+                    telefono: section.content[0].telefono,
                   },
                 })
               }
