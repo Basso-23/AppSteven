@@ -24,6 +24,12 @@ export default function Ficha({ route }) {
   const [visible, setIsVisible] = useState(false);
   const [indexImage, setIndexImage] = useState(0);
   const [numTel, setNumTel] = useState();
+  const [carac, setCarac] = useState({
+    Estacionamiento: require("./Estacionamiento.png"),
+    Acceso: require("./Acceso.png"),
+    FullBar: require("./FullBar.png"),
+    DogFriendly: require("./DogFriendly.png"),
+  });
 
   let dimensionsH = Dimensions.get("window").height;
   let dimensionsW = Dimensions.get("window").width;
@@ -31,7 +37,7 @@ export default function Ficha({ route }) {
   let prueba = readTEXTfile();
 
   let imagenesList = [];
-
+  let caracteristicas = [];
   const onPress = (index) => {
     console.log(index);
     setIsVisible(true);
@@ -74,6 +80,7 @@ export default function Ficha({ route }) {
       imagenesList.push({ uri: element.imagen });
     });
   }
+
   if (loader) {
     return <AppLoader />;
   }
@@ -534,13 +541,28 @@ export default function Ficha({ route }) {
             style={{
               borderColor: "rgba(0, 0, 0, .1)",
               borderWidth: 0.5,
-              height: 40,
+              flex: 2,
+              flexDirection: "row",
+              flexWrap: "wrap",
             }}
           >
-            <Text style={{ marginLeft: 10, marginTop: 7.5 }}>
-              <Icon name="truck" type="feather" iconProps={{ size: 15 }} />
-              <Text style={{ marginLeft: 10 }}> Delivery</Text>
-            </Text>
+            {posts &&
+              posts.caracteristicas.map((caract) => (
+                <View style={{ width: "45%", marginLeft: 5 }}>
+                  <Text style={{ flex: 1, padding: 10 }}>
+                    <Image
+                      source={carac[caract.replace(/\s/g, "")]}
+                      style={{
+                        width: 24,
+                        height: 24,
+                        marginRight: 5,
+                        resizeMode: "stretch",
+                      }}
+                    />
+                    <Text>{caract}</Text>
+                  </Text>
+                </View>
+              ))}
           </View>
         </View>
 
@@ -608,7 +630,7 @@ export default function Ficha({ route }) {
                   borderRightWidth: 0.5,
                 }}
               >
-                <View style={{ flex: 1, flexDirection: "row", marginTop: 5 }}>
+                <View style={{ flex: 1, flexDirection: "row", marginTop: 10 }}>
                   <View style={{ flex: 1 }}>
                     <Text style={{ textAlign: "left", marginLeft: 5 }}>
                       {horario.dia}
