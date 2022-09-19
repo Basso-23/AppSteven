@@ -695,7 +695,7 @@ export default function Ficha({ route }) {
                   padding: 3,
                 }}
               />
-              <Text> Prueba, Planta baja de algo, Panamá</Text>
+              <Text style={{ marginLeft: 5 }}>{route.params.ubicacion}</Text>
             </View>
             <View
               style={{
@@ -745,7 +745,7 @@ export default function Ficha({ route }) {
                   padding: 3,
                 }}
               />
-              <Text> 209-9138</Text>
+              <Text style={{ marginLeft: 5 }}>{route.params.telefono}</Text>
             </View>
             <View
               style={{
@@ -771,7 +771,9 @@ export default function Ficha({ route }) {
                   padding: 3,
                 }}
               />
-              <Text> http://hkb.pidepaya.com</Text>
+              <Text style={{ flex: 1, flexWrap: "wrap", marginLeft: 5 }}>
+                {route.params.share_link}
+              </Text>
             </View>
           </View>
         </View>
