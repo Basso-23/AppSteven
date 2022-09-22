@@ -27,8 +27,8 @@ import { useNavigation } from "@react-navigation/native";
 import Inicio from "./screens/Inicio/A-Inicio";
 import Web from "./screens/Web/A-Web";
 import Cuenta from "./screens/Cuenta/A-Cuenta";
-import Eventos from "./screens/Eventos/A-Eventos";
 //Stacks
+import EventosStacks from "./screens/Eventos/EventosStack";
 import NegociosStack from "./screens/Negocios/NegociosStack";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -107,7 +107,7 @@ function MyTabs() {
 
       <Tab.Screen
         name="Eventos"
-        component={Eventos}
+        component={EventosStacks}
         options={{
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="ticket" size={20} color={color} />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
   View,
@@ -10,25 +10,26 @@ import {
   Dimensions,
   ImageBackground,
   Platform,
-} from 'react-native';
-import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import axios from 'axios';
+} from "react-native";
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import {
   addMultipleGifs,
   deleteAllGifs,
   getSingleGif,
   saveTEXTfile,
   readTEXTfile,
-} from '../TextFile';
+} from "../TextFile";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 const CARD_HEIGHT = 220;
 const CARD_WIDTH = width * 0.8;
 const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
 
 const Map = () => {
   const [posts, setPosts] = useState([]);
-
+  const navigation = useNavigation();
   let prueba = readTEXTfile();
 
   useEffect(() => {
@@ -37,7 +38,7 @@ const Map = () => {
         language = value;
         axios
           .get(
-            'https://bmacademiaonline.com/payaproyecto3/restaurantes.php?lang=' +
+            "https://bmacademiaonline.com/payaproyecto3/eventos.php?lang=" +
               language
           )
           .then((res) => {
@@ -45,7 +46,7 @@ const Map = () => {
           });
       })
       .catch((err) => {
-        setPosts('ERROR');
+        setPosts("ERROR");
       });
   }, []);
 
@@ -66,7 +67,7 @@ const Map = () => {
   useEffect(() => {
     axios
       .get(
-        'https://bmacademiaonline.com/payaproyecto3/restaurantes.php?lang=' +
+        "https://bmacademiaonline.com/payaproyecto3/eventos.php?lang=" +
           language
       )
       .then((response) => {
@@ -117,7 +118,7 @@ const Map = () => {
     const scale = mapAnimation.interpolate({
       inputRange,
       outputRange: [1, 1.5, 1],
-      extrapolate: 'clamp',
+      extrapolate: "clamp",
     });
     return { scale };
   });
@@ -141,7 +142,8 @@ const Map = () => {
         ref={_map}
         initialRegion={stat.region}
         style={styles.container}
-        provider={PROVIDER_GOOGLE}>
+        provider={PROVIDER_GOOGLE}
+      >
         {stat.elements.map((element, index) => {
           const scaleStyle = {
             transform: [
@@ -155,7 +157,7 @@ const Map = () => {
               key={index}
               coordinate={element.content[0].coordinates}
               title={element.content[0].name}
-              description={'restaurante'}
+              description={"restaurante"}
               image={element.content[0].mini}
             />
           );
@@ -180,7 +182,7 @@ const Map = () => {
         }}
         contentContainerStyle={{
           paddingHorizontal:
-            Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
+            Platform.OS === "android" ? SPACING_FOR_CARD_INSET : 0,
         }}
         //Centrar el mapa en el scroll
         //Animacion con el mapa
@@ -199,37 +201,57 @@ const Map = () => {
         //Animacion con el mapa
       >
         {posts.map((section) => (
-          <TouchableOpacity style={styles.card}>
+          <TouchableOpacity
+            style={styles.card}
+            onPress={() =>
+              navigation.navigate("Promo", {
+                image: section.content[0].image,
+                name: section.content[0].name,
+                fecha_fin: section.content[0].fecha_fin,
+                fecha_inicio: section.content[0].fecha_inicio,
+                ubicacion: section.content[0].ubicacion,
+                latitude: section.content[0].latitude,
+                longitude: section.content[0].longitude,
+                coordinates: section.content[0].coordinates,
+                description: section.content[0].description,
+                url: section.content[0].url,
+              })
+            }
+          >
             <ImageBackground
               source={{ uri: section.content[0].image }}
               style={styles.cardImage}
-              resizeMode="cover">
+              resizeMode="cover"
+            >
               <View style={styles.childView}>
                 <View
                   style={{
                     marginTop: 5,
                     marginRight: 10,
                     borderRadius: 4,
-                    alignSelf: 'baseline',
-                  }}></View>
+                    alignSelf: "baseline",
+                  }}
+                ></View>
 
                 <View
                   style={{
                     marginTop: 5,
                     marginRight: 10,
                     borderRadius: 4,
-                    alignSelf: 'baseline',
-                    backgroundColor: '#43d07c',
-                  }}>
+                    alignSelf: "baseline",
+                    backgroundColor: "#43d07c",
+                  }}
+                >
                   <Text
                     style={{
                       padding: 2.5,
                       fontSize: 12,
-                      color: 'white',
-                    }}>
-                    {' '}
+                      color: "white",
+                    }}
+                  >
+                    {" "}
                     {section.content[0].distancia}
-                    {' km'}
+                    {" km"}
                   </Text>
                 </View>
               </View>
@@ -240,10 +262,11 @@ const Map = () => {
                 {section.content[0].name}
               </Text>
               <Text numberOfLines={1} style={styles.cardDescription}>
-                1 diciembre, 2021 - Mie 12:00
+                {section.content[0].fecha_inicio} al{" "}
+                {section.content[0].fecha_fin}
               </Text>
               <Text numberOfLines={1} style={styles.cardDescription}>
-                Los Años Locos, San Francisco, Panama, Panama, Panama....
+                {section.content[0].description}
               </Text>
               <Text numberOfLines={1} style={styles.cardDescription}>
                 0 personas interesadas
@@ -265,13 +288,13 @@ const styles = StyleSheet.create({
     height: 35,
   },
   markerWrap: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     width: 60,
     height: 60,
   },
   scrollView: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
@@ -279,21 +302,21 @@ const styles = StyleSheet.create({
   },
   card: {
     elevation: 2,
-    backgroundColor: '#FFF',
+    backgroundColor: "#FFF",
     marginHorizontal: 10,
-    shadowColor: '#000',
+    shadowColor: "#000",
 
     shadowOpacity: 0.3,
     shadowOffset: { x: 2, y: -2 },
     height: CARD_HEIGHT,
     width: CARD_WIDTH,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   cardImage: {
     flex: 3,
-    width: '100%',
-    height: '100%',
-    alignSelf: 'center',
+    width: "100%",
+    height: "100%",
+    alignSelf: "center",
   },
 
   textContent: {
@@ -304,18 +327,18 @@ const styles = StyleSheet.create({
   },
   cardTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   cardDescription: {
     fontSize: 12,
-    color: '#444',
+    color: "#444",
   },
 
   childView: {
     flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });
 

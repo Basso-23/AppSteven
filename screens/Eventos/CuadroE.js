@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import {
   Text,
   View,
@@ -9,20 +9,20 @@ import {
   ImageBackground,
   Linking,
   Button,
-} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
-import { Dimensions } from 'react-native';
-import axios from 'axios';
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { Dimensions } from "react-native";
+import axios from "axios";
 import {
   addMultipleGifs,
   deleteAllGifs,
   getSingleGif,
   saveTEXTfile,
   readTEXTfile,
-} from '../TextFile';
-import Header from '../Inicio/HeaderBlack';
+} from "../TextFile";
+import Header from "../Inicio/HeaderBlack";
 
 function CuadroE() {
   const [posts, setPosts] = useState([]);
@@ -34,16 +34,13 @@ function CuadroE() {
       .then((value) => {
         language = value;
         axios
-          .get(
-            'https://bmacademiaonline.com/payaproyecto3/restaurantes.php?lang=' +
-              language
-          )
+          .get("https://bmacademiaonline.com/payaproyecto3/eventos.php")
           .then((res) => {
             setPosts(res.data);
           });
       })
       .catch((err) => {
-        setPosts('ERROR');
+        setPosts("ERROR");
       });
   }, []);
 
@@ -59,41 +56,60 @@ function CuadroE() {
               {posts.map((section) => (
                 <TouchableOpacity
                   style={{
-                    height: '100%',
-                    width: '100%',
+                    height: "100%",
+                    width: "100%",
                     marginBottom: 90,
                     borderRadius: 10,
-                  }}>
+                  }}
+                  onPress={() =>
+                    navigation.navigate("Promo", {
+                      image: section.content[0].image,
+                      name: section.content[0].name,
+                      fecha_fin: section.content[0].fecha_fin,
+                      fecha_inicio: section.content[0].fecha_inicio,
+                      ubicacion: section.content[0].ubicacion,
+                      latitude: section.content[0].latitude,
+                      longitude: section.content[0].longitude,
+                      coordinates: section.content[0].coordinates,
+                      description: section.content[0].description,
+                      url: section.content[0].url,
+                    })
+                  }
+                >
                   <View style={styles.leftImages}>
                     <ImageBackground
                       source={{ uri: section.content[0].image }}
-                      style={styles.imagenes}>
+                      style={styles.imagenes}
+                    >
                       <View style={styles.childView}>
                         <View
                           style={{
                             marginTop: 5,
                             marginRight: 10,
                             borderRadius: 4,
-                            alignSelf: 'baseline',
-                          }}></View>
+                            alignSelf: "baseline",
+                          }}
+                        ></View>
 
                         <View
                           style={{
                             marginTop: 5,
                             marginRight: 10,
                             borderRadius: 4,
-                            alignSelf: 'baseline',
-                            backgroundColor: '#43d07c',
-                          }}>
+                            alignSelf: "baseline",
+                            backgroundColor: "#43d07c",
+                          }}
+                        >
                           <Text
                             style={{
                               padding: 2.5,
                               fontSize: 12,
-                              color: 'white',
-                            }}>
-                            {' '}
+                              color: "white",
+                            }}
+                          >
+                            {" "}
                             {section.content[0].distancia}
-                            {' km'}
+                            {" km"}
                           </Text>
                         </View>
                       </View>
@@ -104,11 +120,11 @@ function CuadroE() {
                         {section.content[0].name}
                       </Text>
                       <Text numberOfLines={1} style={styles.cardDescription}>
-                        1 diciembre, 2021 - Mie 12:00
+                        {section.content[0].fecha_inicio} al{" "}
+                        {section.content[0].fecha_fin}
                       </Text>
                       <Text numberOfLines={1} style={styles.cardDescription}>
-                        Los Años Locos, San Francisco, Panama, Panama,
-                        Panama....
+                        {section.content[0].ubicacion}
                       </Text>
                       <Text numberOfLines={1} style={styles.cardDescription}>
                         0 personas interesadas
@@ -125,41 +141,60 @@ function CuadroE() {
               {posts.map((section) => (
                 <TouchableOpacity
                   style={{
-                    height: '100%',
-                    width: '100%',
+                    height: "100%",
+                    width: "100%",
                     marginBottom: 90,
                     borderRadius: 10,
-                  }}>
+                  }}
+                  onPress={() =>
+                    navigation.navigate("Promo", {
+                      image: section.content[0].image,
+                      name: section.content[0].name,
+                      fecha_fin: section.content[0].fecha_fin,
+                      fecha_inicio: section.content[0].fecha_inicio,
+                      ubicacion: section.content[0].ubicacion,
+                      latitude: section.content[0].latitude,
+                      longitude: section.content[0].longitude,
+                      coordinates: section.content[0].coordinates,
+                      description: section.content[0].description,
+                      url: section.content[0].url,
+                    })
+                  }
+                >
                   <View style={styles.rightImages}>
                     <ImageBackground
                       source={{ uri: section.content[0].image }}
-                      style={styles.imagenes}>
+                      style={styles.imagenes}
+                    >
                       <View style={styles.childView}>
                         <View
                           style={{
                             marginTop: 5,
                             marginRight: 10,
                             borderRadius: 4,
-                            alignSelf: 'baseline',
-                          }}></View>
+                            alignSelf: "baseline",
+                          }}
+                        ></View>
 
                         <View
                           style={{
                             marginTop: 5,
                             marginRight: 10,
                             borderRadius: 4,
-                            alignSelf: 'baseline',
-                            backgroundColor: '#43d07c',
-                          }}>
+                            alignSelf: "baseline",
+                            backgroundColor: "#43d07c",
+                          }}
+                        >
                           <Text
                             style={{
                               padding: 2.5,
                               fontSize: 12,
-                              color: 'white',
-                            }}>
-                            {' '}
+                              color: "white",
+                            }}
+                          >
+                            {" "}
                             {section.content[0].distancia}
-                            {' km'}
+                            {" km"}
                           </Text>
                         </View>
                       </View>
@@ -169,11 +204,11 @@ function CuadroE() {
                         {section.content[0].name}
                       </Text>
                       <Text numberOfLines={1} style={styles.cardDescription}>
-                        1 diciembre, 2021 - Mie 12:00
+                        {section.content[0].fecha_inicio} al{" "}
+                        {section.content[0].fecha_fin}
                       </Text>
                       <Text numberOfLines={1} style={styles.cardDescription}>
-                        Los Años Locos, San Francisco, Panama, Panama,
-                        Panama....
+                        {section.content[0].ubicacion}
                       </Text>
                       <Text numberOfLines={1} style={styles.cardDescription}>
                         0 personas interesadas
@@ -190,13 +225,13 @@ function CuadroE() {
   );
 }
 
-let dimensionsH = Dimensions.get('window').height;
-let dimensionsW = Dimensions.get('window').width;
+let dimensionsH = Dimensions.get("window").height;
+let dimensionsW = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
     marginBottom: 5,
-    flexDirection: 'row',
-    backgroundColor: 'white',
+    flexDirection: "row",
+    backgroundColor: "white",
     height: dimensionsH,
     width: dimensionsW,
   },
@@ -204,18 +239,18 @@ const styles = StyleSheet.create({
   leftSize: {
     height: dimensionsH,
     width: dimensionsW / 2,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   rightSize: {
     height: dimensionsH,
     width: dimensionsW / 2,
-    alignItems: 'center',
+    alignItems: "center",
   },
 
   leftImages: {
     height: 100,
-    width: '95%',
+    width: "95%",
     marginLeft: 2,
     marginTop: 10,
     marginBottom: 80,
@@ -223,38 +258,38 @@ const styles = StyleSheet.create({
 
   rightImages: {
     height: 100,
-    width: '95%',
+    width: "95%",
     marginBottom: 80,
     marginRight: 2,
     marginTop: 10,
   },
 
   imagenes: {
-    height: '100%',
-    width: '100%',
-    overflow: 'hidden',
+    height: "100%",
+    width: "100%",
+    overflow: "hidden",
   },
 
   textContent: {
     paddingTop: 5,
     height: 50,
-    width: '100%',
+    width: "100%",
     marginLeft: 10,
   },
 
   cardDescription: {
     fontSize: 12,
-    color: '#444',
+    color: "#444",
   },
 
   cardTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   childView: {
     flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
+    justifyContent: "space-between",
+    flexDirection: "row",
   },
 });
 
